@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090608">
+<title>For Cookie — Midnight Love</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#090608;--red:#8d1e35;--rose:#d58a99;--pale:#f5e5e8;--muted:#b69da3}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--pale);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(ellipse at 50% 35%,#36111c 0%,#160b10 42%,#090608 78%)}
+#particles,.petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+header,main,footer{position:relative;z-index:1}
+header{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(20px,6vw,84px);border-bottom:1px solid #ffffff12}
+.brand{font-family:'Cormorant Garamond',serif;letter-spacing:.34em;font-size:15px;color:#e6b5bf}
+.music{border:1px solid #8b4656;background:#160b10;color:#f0cbd2;border-radius:30px;padding:10px 15px;font:inherit;font-size:11px;letter-spacing:.12em;cursor:pointer}
+.music:hover,.music:focus-visible{background:#35121e;outline:none}
+.hero{min-height:calc(100svh - 76px);display:flex;align-items:center;justify-content:center;text-align:center;padding:65px 22px 80px}
+.hero-inner{max-width:760px;animation:rise 1.5s ease both}
+.eyebrow{font-size:10px;letter-spacing:.34em;color:#d28a99;text-transform:uppercase}
+.heart-wrap{width:104px;height:104px;margin:28px auto 30px;display:grid;place-items:center;position:relative}
+.heart-wrap:before,.heart-wrap:after{content:"";position:absolute;inset:0;border:1px solid #b94c65;border-radius:50%;animation:pulse 3s infinite}
+.heart-wrap:after{inset:-12px;animation-delay:1s;opacity:.55}
+.big-heart{font-size:54px;color:#c83e5b;text-shadow:0 0 18px #d02b52,0 0 48px #9d173b;animation:heartbeat 1.8s infinite}
+h1,h2,.letter{font-family:'Cormorant Garamond',serif;font-weight:300}
+h1{font-size:clamp(48px,8vw,92px);line-height:.98;margin:0;color:#f8e9ec}
+h1 em{font-style:italic;color:#d98d9d}
+.subtitle{color:#c2aab0;font-size:13px;letter-spacing:.08em;line-height:1.9;margin:25px auto 34px;max-width:470px}
+.primary{border:1px solid #b34b62;background:linear-gradient(135deg,#9d2944,#64152b);color:white;padding:16px 28px;border-radius:3px;letter-spacing:.16em;font-size:10px;cursor:pointer;box-shadow:0 8px 35px #9d1e3b35;transition:.3s}
+.primary:hover{transform:translateY(-3px);box-shadow:0 12px 40px #d22c503f}
+.hint{font-size:10px;color:#8d737a;margin-top:18px;letter-spacing:.1em}
+section{padding:100px 22px;text-align:center;max-width:850px;margin:auto}
+.section-kicker{color:#c77a8b;font-size:10px;letter-spacing:.3em}
+h2{font-size:clamp(38px,6vw,62px);margin:18px 0;color:#f3dfe3}
+.letter-stage{position:relative;max-width:740px;margin:34px auto 0;min-height:360px}
+.mailbox-stage{position:relative;width:min(100%,420px);height:310px;margin:10px auto 14px;max-height:330px;transition:opacity .55s ease,transform .6s cubic-bezier(.22,1,.36,1),max-height .6s ease,margin .6s ease}
+.mailbox-stage.is-hidden{opacity:0;transform:translateY(-18px) scale(.9);max-height:0;margin:0 auto;overflow:hidden;pointer-events:none}
+.mailbox-svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 24px 40px #00000099)}
+.mb-bird{transform-origin:178px 72px;transition:transform .45s cubic-bezier(.34,1.56,.64,1)}
+.mb-wing{transform-origin:182px 62px}
+.mailbox-stage.mb-flag-up .mb-bird{animation:birdHop .9s cubic-bezier(.34,1.56,.64,1) forwards}
+.mailbox-stage.mb-flag-up .mb-wing{animation:wingFlutter .28s ease-in-out 3}
+.mb-flag{transform-origin:272px 134px;transform:rotate(64deg);transition:transform .58s cubic-bezier(.34,1.56,.64,1)}
+.mailbox-stage.mb-flag-up .mb-flag{transform:rotate(0deg)}
+.mb-door{transform-origin:112px 178px;transform:rotate(0deg);transition:transform .68s cubic-bezier(.22,1,.36,1)}
+.mailbox-stage.mb-door-open .mb-door{transform:rotate(-94deg)}
+.mb-flutter-1,.mb-flutter-2,.mb-main-env{opacity:0}
+.mailbox-stage.mb-door-open .mb-flutter-1{animation:flutterUpLeft 1.25s cubic-bezier(.22,1,.36,1) .12s forwards}
+.mailbox-stage.mb-door-open .mb-flutter-2{animation:flutterDownLeft 1.2s cubic-bezier(.22,1,.36,1) .24s forwards}
+.mailbox-stage.mb-door-open .mb-main-env{animation:envEmergeBox 1.05s cubic-bezier(.22,1,.36,1) .18s forwards}
+@keyframes birdHop{0%{transform:translate(0,0) rotate(0)}35%{transform:translate(-6px,-34px) rotate(-10deg)}65%{transform:translate(4px,-14px) rotate(6deg)}100%{transform:translate(0,0) rotate(-3deg)}}
+@keyframes wingFlutter{0%,100%{transform:rotate(0)}50%{transform:rotate(-26deg)}}
+@keyframes flutterUpLeft{0%{opacity:0;transform:translate(55px,24px) scale(.35) rotate(12deg)}25%{opacity:1}100%{opacity:0;transform:translate(-115px,-95px) scale(.85) rotate(-28deg)}}
+@keyframes flutterDownLeft{0%{opacity:0;transform:translate(40px,20px) scale(.35) rotate(-8deg)}25%{opacity:1}100%{opacity:0;transform:translate(-110px,62px) scale(.78) rotate(-36deg)}}
+@keyframes envEmergeBox{0%{opacity:0;transform:translate(38px,6px) scale(.48) rotate(-6deg)}30%{opacity:1}100%{opacity:1;transform:translate(-48px,18px) scale(1.12) rotate(3deg)}}
+.envelope-wrap{position:relative;width:min(100%,390px);height:255px;margin:30px auto 10px;perspective:1200px;cursor:pointer;transition:opacity .55s ease,transform .6s cubic-bezier(.22,1,.36,1),max-height .6s ease,margin .6s ease;max-height:300px}
+.envelope-wrap.is-hidden{opacity:0;transform:translateY(28px) scale(.92);max-height:0;margin:0 auto;overflow:hidden;pointer-events:none}
+.envelope{position:relative;width:100%;height:100%;transform-style:preserve-3d;filter:drop-shadow(0 24px 45px #00000099)}
+.env-back{position:absolute;inset:0;background:linear-gradient(160deg,#3d121f,#1e0810);border:1px solid #d4af7a44;border-radius:6px;overflow:hidden}
+.env-scroll-peek{position:absolute;left:50%;bottom:24px;width:82%;height:68px;transform:translateX(-50%) translateY(20px);opacity:0;border-radius:34px;background:linear-gradient(180deg,#8a5a36 0%,#edd8b4 26%,#f7ebd2 46%,#c99e6d 78%,#6e4122 100%);box-shadow:0 8px 20px #0008,inset 0 2px 4px #fff7;transition:transform .75s cubic-bezier(.22,1,.36,1),opacity .4s ease;z-index:2}
+.env-scroll-peek:before,.env-scroll-peek:after{content:"";position:absolute;top:6px;bottom:6px;width:14px;border-radius:50%;background:radial-gradient(circle at 40% 50%,#3d200e 0%,#7b4c2a 65%,#d7b485 100%)}
+.env-scroll-peek:before{left:6px}.env-scroll-peek:after{right:6px}
+.env-pocket{position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:6px;overflow:hidden}
+.env-pocket:before,.env-pocket:after{content:"";position:absolute;inset:0}
+.env-pocket:before{background:linear-gradient(135deg,#5a192b 0%,#2d0b16 55%,#4a1423 100%);clip-path:polygon(0 0,52% 54%,0 100%,100% 100%,48% 54%,100% 0,100% 100%,0 100%)}
+.env-pocket:after{background:linear-gradient(180deg,#4d1526,#290913);clip-path:polygon(0 100%,50% 48%,100% 100%);border-top:1px solid #d4af7a44}
+.env-flap{position:absolute;top:0;left:0;right:0;height:56%;z-index:4;transform-origin:top center;transition:transform .7s cubic-bezier(.4,0,.2,1);transform-style:preserve-3d}
+.env-flap:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#681d32,#3a0f1d);clip-path:polygon(0 0,100% 0,50% 100%);border-top:1px solid #d4af7a66;backface-visibility:hidden}
+.env-flap:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#2a0b15,#481424);clip-path:polygon(0 0,100% 0,50% 100%);transform:rotateX(180deg);backface-visibility:hidden}
+.wax-seal{position:absolute;left:50%;top:52%;transform:translate(-50%,-50%);z-index:5;width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#c83a57 0%,#86162f 58%,#4c0818 100%);border:2px solid #df9b7a55;box-shadow:0 6px 18px #000a,inset 0 2px 5px #ff9fb366;color:#fde6ea;font-size:22px;transition:transform .45s ease,opacity .4s ease}
+.env-prompt{position:absolute;bottom:-30px;left:0;right:0;font-size:10px;letter-spacing:.24em;color:#c98a97;text-transform:uppercase}
+.envelope-wrap.is-open .wax-seal{transform:translate(-50%,-50%) scale(1.28);opacity:0}
+.envelope-wrap.is-open .env-flap{transform:rotateX(180deg);z-index:1}
+.envelope-wrap.is-emerged .env-scroll-peek{opacity:1;transform:translateX(-50%) translateY(-108px) scale(1.06)}
+
+.scroll-shell{opacity:0;transform:translateY(32px) scale(.95);max-height:0;overflow:hidden;transition:opacity .65s ease,transform .85s cubic-bezier(.22,1,.36,1),max-height 1.1s ease;margin:0 auto}
+.scroll-shell.is-visible{opacity:1;transform:translateY(0) scale(1);max-height:2600px;overflow:visible}
+.parchment-backing{position:relative;max-width:510px;margin:0 auto;padding:clamp(16px,3.2vw,26px) clamp(14px,3vw,24px);background:radial-gradient(ellipse at 50% 45%,#fbf2dc 0%,#f0dfc0 62%,#dec397 100%);border-radius:4px;box-shadow:0 28px 80px #000000b8,inset 0 0 42px #a4744266,inset 0 0 8px #5d381988;border:1px solid #c9a67566}
+.parchment-backing:before{content:"";position:absolute;inset:7px;border:1px solid #9f704122;pointer-events:none}
+.scroll-wrap{position:relative;max-width:430px;margin:0 auto}
+.scroll-roll{position:relative;height:24px;margin:0 -8px;border-radius:14px;background:linear-gradient(180deg,#593218 0%,#b88854 22%,#f5e3be 48%,#cfa26d 78%,#4a2812 100%);box-shadow:0 8px 18px #2c150788,inset 0 2px 4px #fff7e488;z-index:3}
+.scroll-roll:before,.scroll-roll:after{content:"";position:absolute;top:2px;bottom:2px;width:13px;border-radius:50%;background:radial-gradient(circle at 45% 50%,#281307 0%,#63371b 58%,#d9b17c 100%);box-shadow:inset 0 0 4px #0009}
+.scroll-roll:before{left:-3px}.scroll-roll:after{right:-3px}
+.scroll-roll-bottom{margin-top:-3px;box-shadow:0 12px 24px #2c150799,inset 0 2px 4px #fff7e466}
+.scroll-paper{position:relative;overflow:hidden;max-height:0;opacity:.35;background:linear-gradient(90deg,#8b5a34 0%,#dfb885 7%,#f9edd2 18%,#fbf2dc 50%,#f5e4c0 84%,#cfa06b 94%,#794927 100%);box-shadow:inset 0 18px 26px -14px #3c1e0c88,inset 0 -18px 26px -14px #3c1e0c88,0 14px 32px #2b140655;transition:max-height 1.55s cubic-bezier(.22,1,.36,1),opacity .6s ease}
+.scroll-shell.is-unrolled .scroll-paper{max-height:1400px;opacity:1}
+.scroll-content{padding:clamp(24px,4vw,34px) clamp(28px,5vw,44px) clamp(26px,4vw,36px) clamp(20px,4vw,34px);text-align:left;opacity:0;transform:translateY(10px);transition:opacity .95s ease .45s,transform .95s ease .45s}
+.scroll-shell.is-unrolled .scroll-content{opacity:1;transform:translateY(0)}
+.scroll-holly{position:absolute;top:-14px;left:-24px;width:clamp(82px,14vw,116px);z-index:5;pointer-events:none;filter:drop-shadow(0 8px 12px #1c0c0466);opacity:0;transform:scale(.85) rotate(-6deg);transition:opacity .7s ease .5s,transform .8s ease .5s}
+.scroll-shell.is-unrolled .scroll-holly{opacity:1;transform:scale(1) rotate(0deg)}
+.scroll-quill{position:absolute;top:12%;right:clamp(-24px,-3vw,-14px);width:clamp(50px,9vw,76px);z-index:5;pointer-events:none;filter:drop-shadow(-6px 12px 14px #22100666);opacity:0;transform:translate(16px,-18px) rotate(12deg);transition:opacity .8s ease .75s,transform .95s cubic-bezier(.22,1,.36,1) .75s}
+.scroll-shell.is-unrolled .scroll-quill{opacity:1;transform:translate(0,0) rotate(0deg)}
+.letter{font-size:clamp(16px,2.2vw,19px);line-height:1.52;color:#331e14;font-weight:500;text-shadow:0 1px 0 #fff9ec88}
+.letter strong{color:#7a1f32;font-weight:600}
+.signature{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:20px;font-weight:600;color:#7a2135;margin-top:18px;text-align:right}
+.replay-btn{margin-top:24px;border:1px solid #69404a;background:#140b10;color:#d9b8c0;padding:10px 18px;border-radius:30px;font:inherit;font-size:10px;letter-spacing:.16em;cursor:pointer;opacity:0;transition:opacity .6s ease 1.1s,background .25s ease}
+.scroll-shell.is-unrolled+.replay-btn{opacity:1}
+.replay-btn:hover{background:#29121b}
+.proposal{min-height:90svh;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.proposal h2{font-size:clamp(48px,8vw,84px);line-height:1.03;margin:24px 0}
+.proposal h2 span{color:#d77e91;font-style:italic}
+.proposal-copy{color:#bda5ab;max-width:430px;line-height:1.8;font-size:13px;margin:0 auto 30px}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.secondary{border:1px solid #69404a;background:#140b10;color:#e6cbd1;padding:15px 22px;border-radius:3px;letter-spacing:.08em;font-size:10px;cursor:pointer}
+.secondary:hover{background:#29121b}
+.response{display:none;margin:32px auto 0;max-width:560px;padding:24px;border:1px solid #9e4b60;background:#190b11;color:#f0dce1;line-height:1.8;animation:rise .7s ease both}
+.response.show{display:block}
+.save-status{font-size:11px;letter-spacing:.12em;color:#d58a99;margin-top:10px}
+.note-form{margin-top:16px;padding-top:16px;border-top:1px solid #ffffff16;display:flex;flex-direction:column;gap:10px}
+.note-input{width:100%;min-height:76px;resize:vertical;padding:12px 14px;border:1px solid #6f3545;border-radius:4px;background:#10070b;color:#f5e5e8;font:inherit;font-size:13px;line-height:1.5}
+.note-input:focus{outline:none;border-color:#c85873}
+.note-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.note-btn{border:1px solid #b34b62;background:linear-gradient(135deg,#9d2944,#64152b);color:#fff;padding:10px 18px;border-radius:3px;font:inherit;font-size:10px;letter-spacing:.14em;cursor:pointer}
+.note-btn:disabled{opacity:.6;cursor:not-allowed}
+footer{text-align:center;padding:30px 15px 45px;color:#735e64;font-size:10px;letter-spacing:.16em}
+.floating{position:absolute;bottom:-30px;color:#b93d5b;opacity:0;animation:floatUp linear forwards;text-shadow:0 0 12px #b52548}
+.petal{position:absolute;top:-35px;width:12px;height:18px;background:linear-gradient(135deg,#b94b62,#4c1020);border-radius:100% 0 100% 0;opacity:.55;animation:fall linear forwards}
+.hidden{display:none!important}
+@keyframes pulse{0%{transform:scale(.82);opacity:.8}100%{transform:scale(1.55);opacity:0}}
+@keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.16)}30%{transform:scale(1)}45%{transform:scale(1.1)}}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatUp{0%{transform:translateY(0) rotate(0);opacity:0}15%{opacity:.7}100%{transform:translateY(-110vh) rotate(35deg);opacity:0}}
+@keyframes fall{to{transform:translate3d(100px,110vh,0) rotate(500deg);opacity:0}}
+@media(max-width:600px){header{height:65px}.hero{min-height:calc(100svh - 65px)}section{padding:75px 16px}.actions{flex-direction:column;width:min(100%,280px)}.actions button{width:100%}.brand{font-size:12px}.mailbox-stage{height:245px}.envelope-wrap{height:215px}.scroll-holly{left:-12px;top:-12px;width:78px}.scroll-quill{width:44px;right:-15px;top:9%}.scroll-content{padding:28px 34px 28px 20px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<div id="particles"></div><div class="petals" id="petals"></div>
+<header><div class="brand">MIDNIGHT LOVE</div><button class="music" id="musicBtn" type="button">♫ &nbsp; PLAY THE MOMENT</button></header>
+<main>
+<section class="hero" id="home">
+ <div class="hero-inner">
+  <div class="eyebrow">A little something, just for you</div>
+  <div class="heart-wrap"><div class="big-heart">♥</div></div>
+  <h1>Hey, <em>Cookie.</em></h1>
+  <p class="subtitle">Some feelings are too special to keep hidden.<br>Tonight, I wanted to tell you something from my heart.</p>
+  <button class="primary" id="openBtn" type="button">OPEN MY HEART &nbsp; ↓</button>
+  <div class="hint">TAKE YOUR TIME · THIS IS FOR YOU</div>
+ </div>
+</section>
+<section id="letter" class="hidden">
+ <div class="section-kicker">A NOTE FROM MY HEART</div>
+ <h2>Dear Abhilasha,</h2>
+ <div class="letter-stage">
+  <div class="mailbox-stage" id="mailboxStage" aria-hidden="true">
+   <svg class="mailbox-svg" viewBox="0 0 420 310">
+    <defs>
+     <linearGradient id="woodPost" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#8b6239"/><stop offset="50%" stop-color="#cca06e"/><stop offset="100%" stop-color="#6b4523"/>
+     </linearGradient>
+     <linearGradient id="mbRoof" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#efe8ea"/><stop offset="48%" stop-color="#cfc3c8"/><stop offset="100%" stop-color="#8f7b83"/>
+     </linearGradient>
+     <linearGradient id="mbFront" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e3dbde"/><stop offset="100%" stop-color="#9e8b93"/>
+     </linearGradient>
+     <linearGradient id="mbInner" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#221017"/><stop offset="100%" stop-color="#481a2a"/>
+     </linearGradient>
+    </defs>
+    <!-- Grassy hill & tufts -->
+    <path d="M126 286 Q216 238 308 286" fill="#23141b" stroke="#d9a5b1" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M132 276 L124 261 L136 271 L142 256 L144 273" fill="none" stroke="#d9a5b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M286 274 L288 258 L295 271 L306 262 L299 277" fill="none" stroke="#d9a5b1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Wooden post -->
+    <rect x="200" y="182" width="28" height="86" rx="4" fill="url(#woodPost)"/>
+    <!-- Mailbox back/body -->
+    <path d="M148 86 L278 68 C312 68 334 94 334 128 L334 166 L196 184 Z" fill="url(#mbRoof)" stroke="#ffffff33" stroke-width="1"/>
+    <g stroke="#ffffff26" stroke-width="1" fill="none">
+     <path d="M158 92 L286 75"/><path d="M168 102 L298 85"/><path d="M178 114 L308 97"/>
+    </g>
+    <!-- Cute stickers & MAIL emboss -->
+    <circle cx="222" cy="166" r="6" fill="#f3d36b" opacity=".9"/>
+    <rect x="234" y="156" width="12" height="11" rx="2" fill="#77b5e5" transform="rotate(-10 240 161)"/>
+    <text x="275" y="162" fill="#ffffff55" font-family="DM Sans,sans-serif" font-size="18" font-weight="600" letter-spacing="2" transform="rotate(-7 275 162)">MAIL</text>
+    <!-- Dark mailbox interior opening -->
+    <path d="M112 178 L112 126 C112 94 134 76 160 80 C184 84 198 106 198 134 L198 184 Z" fill="url(#mbInner)" stroke="#5b3341" stroke-width="2"/>
+    <!-- Letter peeking & emerging inside open mailbox -->
+    <g class="mb-main-env">
+     <rect x="134" y="114" width="70" height="50" rx="5" fill="#7a1b34" stroke="#e4b48a" stroke-width="1.6"/>
+     <path d="M134 114 L169 143 L204 114" fill="none" stroke="#f0c8d0" stroke-width="1.6"/>
+     <circle cx="169" cy="141" r="7.5" fill="#c83855" stroke="#f3d2b0" stroke-width="1"/>
+     <text x="169" y="144.5" text-anchor="middle" fill="#fff" font-size="8.5">♥</text>
+    </g>
+    <!-- Fluttering mini envelopes -->
+    <g class="mb-flutter-1">
+     <rect x="112" y="102" width="46" height="32" rx="4" fill="#f7eef0" stroke="#c83e5b" stroke-width="2" stroke-dasharray="5 3"/>
+     <path d="M114 104 L135 120 L156 104" fill="none" stroke="#b93d5b" stroke-width="1.8"/>
+    </g>
+    <g class="mb-flutter-2">
+     <rect x="120" y="128" width="38" height="27" rx="4" fill="#89b8e6" stroke="#dceeff" stroke-width="1.4"/>
+     <path d="M122 130 L139 144 L156 130" fill="none" stroke="#eef7ff" stroke-width="1.4"/>
+    </g>
+    <!-- Front mailbox door -->
+    <g class="mb-door">
+     <path d="M112 178 L112 126 C112 94 134 76 160 80 C184 84 198 106 198 134 L198 184 Z" fill="url(#mbFront)" stroke="#f6eef0" stroke-width="1.4"/>
+     <circle cx="155" cy="96" r="3.5" fill="#7d646f"/>
+    </g>
+    <!-- Red mailbox flag -->
+    <g class="mb-flag">
+     <rect x="268" y="84" width="8" height="52" rx="4" fill="#d92b43"/>
+     <rect x="268" y="80" width="26" height="16" rx="3" fill="#e6354e"/>
+     <circle cx="272" cy="134" r="9" fill="#c72239" stroke="#ff95a555" stroke-width="1.5"/>
+    </g>
+    <!-- Cute perched bird -->
+    <g class="mb-bird">
+     <path d="M168 78 L166 86 M178 78 L178 86" stroke="#f5e5e8" stroke-width="2.2" stroke-linecap="round"/>
+     <path d="M150 62 C152 44 174 42 186 52 C196 60 198 74 176 78 C158 80 148 72 150 62 Z" fill="#fff7f8" stroke="#47212e" stroke-width="2.2"/>
+     <path d="M192 58 L204 60 L194 67 Z" fill="#f09a4b" stroke="#47212e" stroke-width="1.6" stroke-linejoin="round"/>
+     <path d="M148 61 L136 53 L142 66 Z" fill="#f7dfe4" stroke="#47212e" stroke-width="2" stroke-linejoin="round"/>
+     <circle cx="182" cy="56" r="2.6" fill="#2c1019"/>
+     <circle cx="183" cy="55" r=".9" fill="#fff"/>
+     <path class="mb-wing" d="M160 58 C170 54 180 60 176 70 C166 72 158 66 160 58 Z" fill="#f0d5dc" stroke="#47212e" stroke-width="1.8"/>
+    </g>
+   </svg>
+  </div>
+  <div class="envelope-wrap is-hidden" id="envelopeWrap" role="button" tabindex="0" aria-label="Open sealed letter envelope">
+   <div class="envelope">
+    <div class="env-back"></div>
+    <div class="env-scroll-peek" aria-hidden="true"></div>
+    <div class="env-pocket"></div>
+    <div class="env-flap"></div>
+    <div class="wax-seal" aria-hidden="true">♥</div>
+   </div>
+   <div class="env-prompt">Opening your letter…</div>
+  </div>
+  <div class="scroll-shell" id="scrollShell">
+   <div class="parchment-backing">
+    <div class="scroll-wrap">
+     <svg class="scroll-holly" viewBox="0 0 180 165" aria-hidden="true">
+      <g fill="none" stroke-linecap="round">
+       <path d="M52 12 C62 34,70 50,82 68" stroke="#3b5e34" stroke-width="2.5"/>
+       <path d="M72 64 C94 42,116 26,142 18" stroke="#8fb39a" stroke-width="1.8"/>
+       <g stroke="#b7d2bf" stroke-width="1.6">
+        <path d="M84 55 L78 36 M94 47 L88 28 M105 39 L101 21 M116 32 L114 15 M128 25 L127 11"/>
+        <path d="M89 53 L107 49 M99 45 L118 41 M110 37 L129 33 M121 29 L138 26"/>
+       </g>
+       <path d="M74 62 C55 44,36 44,22 54 C36 62,54 66,74 62 Z" fill="#2c5328"/>
+       <path d="M76 64 C56 70,40 82,30 96 C46 95,62 84,76 64 Z" fill="#3b6834"/>
+       <path d="M72 72 C52 72,30 78,18 92 C35 94,48 96,62 110 C68 95,74 84,72 72 Z" fill="#1f421d"/>
+       <path d="M80 76 C70 98,66 118,52 138 C72 130,86 116,96 98 C90 88,85 82,80 76 Z" fill="#254c21"/>
+       <path d="M88 72 C108 72,126 84,136 102 C116 100,100 90,88 72 Z" fill="#1f411d"/>
+       <circle cx="67" cy="41" r="6.5" fill="#e8ebdc" stroke="#859678" stroke-width="1"/>
+       <g fill="#c9182b" stroke="#6d0814" stroke-width=".9">
+        <circle cx="72" cy="74" r="7.2"/><circle cx="83" cy="70" r="7.4"/><circle cx="77" cy="84" r="7.2"/>
+        <circle cx="63" cy="83" r="6.8"/><circle cx="89" cy="81" r="6.8"/><circle cx="73" cy="94" r="6.5"/>
+       </g>
+       <g fill="#ff8f9c" opacity=".7">
+        <circle cx="70" cy="72" r="2"/><circle cx="81" cy="68" r="2"/><circle cx="75" cy="82" r="2"/><circle cx="61" cy="81" r="1.8"/>
+       </g>
+      </g>
+     </svg>
+     <svg class="scroll-quill" viewBox="0 0 120 340" aria-hidden="true">
+      <defs>
+       <linearGradient id="quillMetal" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#f2e2b6"/><stop offset="50%" stop-color="#9e7f4e"/><stop offset="100%" stop-color="#4e3920"/>
+       </linearGradient>
+       <linearGradient id="featherGrad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#3d2716"/><stop offset="55%" stop-color="#6e4b2b"/><stop offset="100%" stop-color="#2b190d"/>
+       </linearGradient>
+      </defs>
+      <path d="M104 8 C84 42,64 112,56 198 L72 204 C92 146,106 76,104 8 Z" fill="url(#featherGrad)"/>
+      <path d="M98 28 L76 46 M95 54 L70 74 M91 82 L65 104 M86 112 L61 134 M80 144 L59 166" stroke="#d8be94" stroke-width="2" opacity=".55"/>
+      <path d="M104 8 C86 78,70 154,54 246" stroke="#c8ab7c" stroke-width="2.2" fill="none"/>
+      <g stroke="url(#quillMetal)" stroke-width="1.6" fill="none">
+       <circle cx="78" cy="118" r="11"/><circle cx="78" cy="118" r="4"/>
+       <circle cx="68" cy="150" r="9"/><circle cx="82" cy="144" r="7"/>
+       <circle cx="61" cy="186" r="12"/><circle cx="61" cy="186" r="5"/>
+      </g>
+      <circle cx="61" cy="186" r="4.2" fill="#1b7a4b" stroke="#d9c08a" stroke-width="1.2"/>
+      <path d="M58 202 L48 278 L39 276 L50 200 Z" fill="url(#quillMetal)"/>
+      <path d="M39 276 L48 278 L38 318 L34 317 Z" fill="#d9dde4"/>
+      <path d="M38 318 L34 317 L32 332 Z" fill="#6b7280"/>
+     </svg>
+     <div class="scroll-roll"></div>
+     <div class="scroll-paper">
+      <div class="scroll-content">
+       <div class="letter">Abhilasha, I know your past relationship was a big part of your life. Four or five years cannot simply disappear, and I would never ask you to forget those memories or pretend they never mattered.<br><br>
+       But sometimes, a chapter can be important and still not be the place where our story is meant to end. Maybe that relationship taught you things, helped you grow, and brought you to the person you are today. And maybe, even if it didn't work out, something better and more peaceful can still be waiting ahead.<br><br>
+       I don't know why our paths crossed, Cookie. Maybe it was just coincidence… or maybe God had written a little something for us too. I don't want to call it destiny before we even know what it could become. I only know that meeting you has started to mean something to me.<br><br>
+       I am not here to compete with your past, replace anyone, or ask you to choose before you're ready. I would simply like the chance to know you, make new memories with you, make you smile, and show you—through my actions, not just words—that care can feel calm, honest, and safe.<br><br>
+       I have fallen in love with you, but I respect your feelings.</div>
+       <div class="signature">With all my heart ♥</div>
+      </div>
+     </div>
+     <div class="scroll-roll scroll-roll-bottom"></div>
+    </div>
+   </div>
+  </div>
+  <button class="replay-btn" id="replayBtn" type="button">↻ &nbsp; REPLAY ANIMATION</button>
+ </div>
+</section>
+<section class="proposal" id="proposal">
+ <div class="section-kicker">ONE QUESTION · FROM ME TO YOU</div>
+ <div class="big-heart" aria-hidden="true">♥</div>
+ <h2>Abhilasha,<br><span>will you let me</span><br>be someone special?</h2>
+ <p class="proposal-copy">I am not asking you to forget yesterday. I am only asking whether we could gently explore a tomorrow, one honest step at a time. Whatever your answer, I'll respect it.</p>
+ <div class="actions">
+  <button class="primary" id="yesBtn" type="button">YES, LET'S SEE ❤️</button>
+  <button class="secondary" id="timeBtn" type="button">I NEED SOME TIME</button>
+ </div>
+ <div class="response" id="response" role="status" aria-live="polite">
+  <div id="responseMsg"></div>
+  <div class="save-status" id="saveStatus"></div>
+  <form class="note-form" id="noteForm">
+   <textarea class="note-input" id="noteInput" maxlength="1000" placeholder="If you'd like to share a few words back, you can write here… (optional)"></textarea>
+   <div class="note-row">
+    <span class="save-status" id="noteStatus"></span>
+    <button class="note-btn" id="noteBtn" type="submit">SEND NOTE ♥</button>
+   </div>
+  </form>
+ </div>
+</section>
+</main>
+<footer>MADE WITH ♥ · JUST FOR ABHILASHA (COOKIE)</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const $=s=>document.querySelector(s);
+const petals=$('#petals'), particles=$('#particles');
+function makePetal(){const p=document.createElement('i');p.className='petal';p.style.left=Math.random()*100+'%';p.style.animationDuration=(8+Math.random()*8)+'s';p.style.animationDelay=(Math.random()*2)+'s';p.style.transform=`rotate(${Math.random()*180}deg)`;petals.appendChild(p);setTimeout(()=>p.remove(),18000)}
+function makeHeart(){const h=document.createElement('span');h.className='floating';h.textContent=Math.random()>.5?'♥':'♡';h.style.left=Math.random()*100+'%';h.style.fontSize=(10+Math.random()*18)+'px';h.style.animationDuration=(8+Math.random()*7)+'s';particles.appendChild(h);setTimeout(()=>h.remove(),16000)}
+setInterval(makePetal,900);setInterval(makeHeart,1100);
+const letterSec=$('#letter'), mailboxStage=$('#mailboxStage'), envWrap=$('#envelopeWrap'), scrollShell=$('#scrollShell');
+let letterTimers=[];
+function clearLetterTimers(){letterTimers.forEach(clearTimeout);letterTimers=[]}
+function playLetterReveal(){
+ clearLetterTimers();
+ mailboxStage.classList.remove('mb-flag-up','mb-door-open','is-hidden');
+ envWrap.classList.remove('is-open','is-emerged');
+ envWrap.classList.add('is-hidden');
+ scrollShell.classList.remove('is-visible','is-unrolled');
+ if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+  mailboxStage.classList.add('is-hidden');
+  envWrap.classList.add('is-hidden');
+  scrollShell.classList.add('is-visible','is-unrolled');
+  return;
+ }
+ letterTimers.push(setTimeout(()=>mailboxStage.classList.add('mb-flag-up'),350));
+ letterTimers.push(setTimeout(()=>mailboxStage.classList.add('mb-door-open'),920));
+ letterTimers.push(setTimeout(()=>{
+  mailboxStage.classList.add('is-hidden');
+  envWrap.classList.remove('is-hidden');
+ },2150));
+ letterTimers.push(setTimeout(()=>envWrap.classList.add('is-open'),2480));
+ letterTimers.push(setTimeout(()=>envWrap.classList.add('is-emerged'),2980));
+ letterTimers.push(setTimeout(()=>{
+  envWrap.classList.add('is-hidden');
+  scrollShell.classList.add('is-visible');
+ },3600));
+ letterTimers.push(setTimeout(()=>scrollShell.classList.add('is-unrolled'),3800));
+}
+$('#openBtn').addEventListener('click',()=>{
+ const firstOpen=letterSec.classList.contains('hidden');
+ letterSec.classList.remove('hidden');
+ letterSec.scrollIntoView({behavior:'smooth'});
+ if(firstOpen||!scrollShell.classList.contains('is-unrolled'))playLetterReveal();
+ for(let i=0;i<12;i++)setTimeout(makeHeart,i*100);
+});
+envWrap.addEventListener('click',()=>{
+ if(!envWrap.classList.contains('is-open'))playLetterReveal();
+});
+envWrap.addEventListener('keydown',e=>{
+ if(e.key==='Enter'||e.key===' '){e.preventDefault();playLetterReveal()}
+});
+$('#replayBtn').addEventListener('click',()=>{
+ letterSec.scrollIntoView({behavior:'smooth'});
+ playLetterReveal();
+});
+const SUPABASE_URL='https://xoatwsfcicvcvefwrkhy.supabase.co';
+const SUPABASE_PUBLISHABLE_KEY='sb_publishable_M_ypJYMdYyRY-SgfX4JoRg_ylRYVPDb';
+const sb=window.supabase?window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY):null;
+function getSessionId(){
+ try{
+  let id=localStorage.getItem('cookie_session_id');
+  if(!id){
+   id=crypto.randomUUID?crypto.randomUUID():'00000000-0000-4000-8000-'+Math.random().toString(16).slice(2,14).padEnd(12,'0');
+   localStorage.setItem('cookie_session_id',id);
+  }
+  return id;
+ }catch{
+  return crypto.randomUUID?crypto.randomUUID():'00000000-0000-4000-8000-'+Date.now().toString(16).padStart(12,'0');
+ }
+}
+const sessionId=getSessionId();
+async function saveToSupabase(choice,message=null){
+ if(!sb)return {ok:false,error:'Supabase client unavailable'};
+ const {error}=await sb.from('cookie_responses').insert({session_id:sessionId,choice,message});
+ return error?{ok:false,error:error.message}:{ok:true};
+}
+$('#yesBtn').addEventListener('click',async ()=>{
+ $('#responseMsg').innerHTML='That just made this moment unforgettable. ❤️<br><span style="color:#d58a99">Thank you for giving this feeling a chance, Cookie.</span>';
+ $('#response').classList.add('show');
+ $('#saveStatus').textContent='Saving your answer…';
+ for(let i=0;i<24;i++)setTimeout(makeHeart,i*80);
+ const res=await saveToSupabase('yes');
+ $('#saveStatus').textContent=res.ok?'Your answer has been saved ♥':'';
+});
+$('#timeBtn').addEventListener('click',async ()=>{
+ $('#responseMsg').textContent="Of course. Take all the time you need, Cookie. No pressure at all — your feelings matter, and I'll respect your answer.";
+ $('#response').classList.add('show');
+ $('#saveStatus').textContent='Saving your answer…';
+ const res=await saveToSupabase('need_time');
+ $('#saveStatus').textContent=res.ok?'Your answer has been saved ♥':'';
+});
+$('#noteForm').addEventListener('submit',async e=>{
+ e.preventDefault();
+ const msg=$('#noteInput').value.trim();
+ if(!msg){$('#noteStatus').textContent='Write a short note first ♥';return}
+ $('#noteBtn').disabled=true;
+ $('#noteStatus').textContent='Sending…';
+ const res=await saveToSupabase('note',msg);
+ $('#noteBtn').disabled=false;
+ if(res.ok){
+  $('#noteInput').value='';
+  $('#noteStatus').textContent='Your note was sent with love ♥';
+ }else{
+  $('#noteStatus').textContent='Could not send note right now. Please try again.';
+ }
+});
+
+const bgAudio=new Audio('music.mp3');
+bgAudio.loop=true;
+bgAudio.preload='auto';
+const musicBtn=$('#musicBtn');
+function syncMusicBtn(){
+ musicBtn.innerHTML=bgAudio.paused?'♫ &nbsp; PLAY THE MOMENT':'♫ &nbsp; PAUSE MUSIC';
+}
+bgAudio.addEventListener('play',syncMusicBtn);
+bgAudio.addEventListener('pause',syncMusicBtn);
+musicBtn.addEventListener('click',()=>{
+ if(bgAudio.paused){
+  bgAudio.play().catch(()=>{musicBtn.textContent='♫ UNABLE TO PLAY'});
+ }else{
+  bgAudio.pause();
+ }
+});
+</script>
+</body>
+</html>
